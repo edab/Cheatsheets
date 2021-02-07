@@ -208,6 +208,16 @@ Command | Description
 `docker save -o my-image.tar.gz debian:sid busybox ubuntu:14.04` | Save images into an archive.
 `docker load -i my-images.tar.gz` | Load images from an archive.
 
+## Orchestrator
+
+They are systems for start containers, keep the running, and restart them if they fail. There are many option available, like:
+
+- _Docker Compose_: useful for developing and testing, but not for production environment.
+- _Kubernetes_: assemble containers into pods, allow scaling and management.
+- _AWS EC2 Container Service_: analogous to Kubernetes, with different vocabulary.
+
+One example about Kubernetes can be found at https://docs.aws.amazon.com/eks/latest/userguide/getting-started.html.
+
 ---------
 
 # Notes
