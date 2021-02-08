@@ -177,13 +177,36 @@ apt-get update && apt-get install -y iptables
 sudo iptables -n -L -t nat
 ```
 
+## Processes
+
+Command | Description
+:-- | :--
+`docker inspect --format '{{.State.Pid}}' hello` | Get the PID of the container with name hello.
+`docker run -ti --rm --privileged=true --pid=host ubuntu bash` | Start a privileged container with direct access to host processes.
 ## ID
 
 Docker has two sets of `IDs`, one for images, and one for containers, that do not overlap.
 
 _Container_ and _Images_ can be referenced in commands by NAMEs, TAGs, IDs, and also only the first characters of IDs.
 
+## Registries
 
+Before exposing a local registry to the internet, we should enforce security as described on https://docs.docker.com/registry.
+
+There are also other options:
+
+- The [Docker Trusted Registry](https://docs.docker.com/ee/dtr)
+- The [AWS Elastic Container Registry](https://aws.amazon.com/ecr/)
+- The [Google Cloud Container Registry](https://cloud.google.com/container-registry)
+- The [Azure Container Registry](https://azure.microsoft.com/en-us/services/container-registry)
+
+Command | Description
+:-- | :--
+`docker run -d -p 5000:5000 --restart=always --name registry registry:2` | Run a registry server inside a docker container, and let the container restart if the program crash, using:
+`docker tag ubuntu:14.04 localhost:5000/mycompany/my-ubuntu:99` | I tag an image
+`docker push localhost:5000/mycompany/my-ubuntu:99` | I save in my repository the new image
+`docker save -o my-image.tar.gz debian:sid busybox ubuntu:14.04` | Save images into an archive.
+`docker load -i my-images.tar.gz` | Load images from an archive.
 
 ---------
 
