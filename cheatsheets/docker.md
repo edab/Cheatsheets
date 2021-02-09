@@ -103,8 +103,46 @@ Command | Description
 
 ## Registries
 
+Command | Description
+:-- | :--
+`docker search ubuntu` | Search images, same as hub.docker.com.
+`docker login` | Login into the docker hub registry.
+`docker push <image>` | Send an image to the docker hub registry.
 
+## Dockerfile
 
+Image creation can be automated using a [dockerfile](https://docs.docker.com/engine/reference/builder/). Each line is a call to `docker run` and `docker commit`, so a process started on one line will not be running on the next line.
+
+Argument to execute can be gine in two forms:
+- _shell form_: is the command that will be passed to a shell (e.g. nano notes.txt)
+- _exec form_: instruct to directly run the command, without a shell (eg. ["/bin/nano", "notes.txt"])
+
+Command | Description
+:-- | :--
+`docker build -t name-of-result .` | Build an image following the instruction in the Dockerfile.
+`FROM` | Select from witch image to download to start from
+`MANTAINER Firstname Lastname <email_address>` | The mantainer name of the image (the email should contain the angled brackets).
+`RUN command` | Run the command line into the container.
+`ADD <source> <destination>` | Add the file to the image. If is an archive .tar.gz, automatically uncompressed it in the given path. And can also be an URL.
+`ENV var=value` | Set an environment variable both during the build and when running the result.
+`ENTRYPOINT` | Specifies the start of the command to run.
+`CMD <command>` | Specify the command to run.
+`EXPOSE 8080` | Expose a port of a container.
+`VOLUME ["/shared-data"]` | Create a volume that can be inherited by later containers. Should be avoided.
+`VOLUME ["/host/path/" "/container/path"]` | Create a persistent volume.
+`WORKDIR` | Set the directory from where all the rest of RUN command will be executed.
+`USER <user>` | Execute command as user with the given name or id.
+
+The simplest possible example is:
+```
+FROM ubuntu:14.04
+RUN apt-get update
+RUN apt-get -y install nano
+ADD notes.txt /tmp/notes.txt
+CMD ["/bin/nano", "/tmp/notes.txt"]
+```
+
+A more complex example can be a _Multi-project Docker file_ that will use multiple FROM commands.
 
 ## ID
 
