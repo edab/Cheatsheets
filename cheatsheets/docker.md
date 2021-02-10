@@ -87,6 +87,25 @@ Command | Description
 `docker push` | Push a new image to a registry.
 `docker rmi` | Remove an image.
 
+## Volumes
+
+There are two types of volumes:
+
+- _Persistent_: data is available also after the container goes away.
+- _Ephemeral_: when no container is using them, the disappear.
+
+Command | Description
+:-- | :--
+`docker run -ti -v <local_path>:<container_path> <image> <command>` | Create a _persistent_ volume from a folder.
+`docker run -ti -v <local_file>:<container_file> <image> <command>` | Create a _persistent_ volume from a file, that should exist _before_ the container is created.
+`docker run -ti -v <volume_name> <image> <command>` | Create a container with an _ephemeral_ volume.
+`docker run -ti --volumes-from <container>  <image> <command>` | Create a container that will use the _ephemeral_ volume of another container.
+
+## Registries
+
+
+
+
 ## ID
 
 Docker has two sets of `IDs`, one for images, and one for containers, that do not overlap.
