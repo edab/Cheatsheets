@@ -76,12 +76,16 @@ Command | Description
 
 ## Images
 
+The tag of an image taken from registry server host:port, should have this structure:
+_<registry_host>:<port>/<organization>/<image-name>:version-tag_.
+
 Command | Description
 :-- | :--
 `docker images` | List all the images downloaded.
 `docker commit <container> <image>:<tag>` | Create a new image from the container. If not specified the TAG will be equal to latest.
-
-
+`docker pull` | Pull an image from a registry.
+`docker push` | Push a new image to a registry.
+`docker rmi` | Remove an image.
 
 ## ID
 
