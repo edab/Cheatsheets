@@ -39,13 +39,57 @@ Command | Description
 
 Command | Description
 :-- | :--
-`docker run -p in:out -p in2:out2` | Expose two TCP port from inside the container to outside.
+`docker run -p <in-port>:<out-port> <image> <command>` | Expose a TCP port from inside the container to outside.
+`nc host.docker.internal <port>` | Access server port from inside the container (on MAC OS).
+`docker run -p <in-port> <image> <command>` | Expose a TCP port from inside the container, but let docker choose the outside port.
+`docker port <container>` | Print the assigned port of the container.
+`docker run -p <in-port>:<out-port>/udp <image> <command>` | Expose an UDP port from inside the container to outside.
 
-# ID
+## Working with Networks
+
+By default docker has three network available:
+
+- _bridge_: default network used by containers
+- _host_: expose direct access of the host network to the container
+- _none_: do not allow network connections at all
+
+Container names are important, since can also be used in network commands to access other containers, like `ping <container_name>`.
+
+Command | Description
+:-- | :--
+`docker network ls` | List available networks.
+`docker network create <net_name>` | Create a network.
+`docker run --rm -ti --net <net_name> --name <name>` | Give container access to the network.
+`docker network connect <net_name> <container>` | Connect a container to a network.
+
+## Legacy Linking
+
+- _Legacy Linking_ will link all ports one way.
+- Also _secret environment variables_ are shared only one way.
+- This is not anymore used, and create dependencies on the startup order.
+- Restart sometimes break the link.
+
+Command | Description
+:-- | :--
+`docker run --rm -ti -e TST=blabla --name serverA <image> <command>` | Create a container with an environment variale TST.
+`docker run --rm -ti --link serverA --name serverB <image> <command>` | Create a container and link it to the one named _serverA_. ServerA _cannot_ connect to the serverB, but ServerB can connect to ServerA and also read the ENV as SERVERA_ENV_TST.
+
+## Images
+
+Command | Description
+:-- | :--
+`docker images` | List all the images downloaded.
+`docker commit <container> <image>:<tag>` | Create a new image from the container. If not specified the TAG will be equal to latest.
+
+
+
+## ID
 
 Docker has two sets of `IDs`, one for images, and one for containers, that do not overlap.
 
 _Container_ and _Images_ can be referenced in commands by NAMEs, TAGs, IDs, and also only the first characters of IDs.
+
+
 
 ---------
 
