@@ -144,6 +144,39 @@ CMD ["/bin/nano", "/tmp/notes.txt"]
 
 A more complex example can be a _Multi-project Docker file_ that will use multiple FROM commands.
 
+## Control Socket
+
+Docker client and server communicate trough the socket `/var/run/docker.sock`. The docker server make use and let be accessible some special features of the linux kernel:
+
+- _cgroups_
+- _namespaces_
+- _copy-on-write_
+
+It is possible to run a docker client inside a docker image, further automating the process of creating containers.
+
+Command | Description
+:-- | :--
+`docker run -ti --rm -v /var/run/docker.sock:/var/run/docker.sock docker sh` | Run the docker client inside a container and give access to the host control socket.
+`docker info` | For check, inside the container, if docker is accessible and is running.
+
+## Networks and Bridges
+
+We can take a look at the bridge created by docker for handling private networks, starting a container with the `brctl` program installed and complete access to the network disabling network isolation (unsafe):
+
+```
+docker run -ti --rm --net=host ubuntu:16.04 bash
+apt-get update && apt-get install -y bridge-utils
+brctl show
+```
+
+We can also have a look of the firewall rules inserted by docker when enabling port forward, starting a container with privileged mode and complete host access:
+
+```
+docker run -ti --rm --net=host --privileged=true ubuntu bash
+apt-get update && apt-get install -y iptables
+sudo iptables -n -L -t nat
+```
+
 ## ID
 
 Docker has two sets of `IDs`, one for images, and one for containers, that do not overlap.
