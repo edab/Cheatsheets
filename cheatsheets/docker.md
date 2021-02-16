@@ -28,8 +28,10 @@ Command | Description
 
 Command | Description
 :-- | :--
+`docker ps` | List the running containers. 
 `docker log <container>` | Print the output of the container.
-`docker kill <container>` | Stop a running container.
+`docker stop <container>` | Stop a running container using SIGTERM.
+`docker kill <container>` | Stop a running container using SIGKILL.
 `docker rm <container>` | Remove a container.
 `docker run --memory <max-mem> <image> <command>` | Limit the memory used by the container.
 `docker run --cpu-shares <cpu-rel> <image> <command>` | Limit the CPU relative % used by the container.
@@ -83,9 +85,10 @@ Command | Description
 :-- | :--
 `docker images` | List all the images downloaded.
 `docker commit <container> <image>:<tag>` | Create a new image from the container. If not specified the TAG will be equal to latest.
-`docker pull` | Pull an image from a registry.
-`docker push` | Push a new image to a registry.
-`docker rmi` | Remove an image.
+`docker pull <image>:<ver>` | Pull an image from a registry.
+`docker tag <image>:<ver> <repo>/<image>:<ver>` | Retag a local image
+`docker push <repo>/<image>:<ver>` | Push a new image to a registry.
+`docker rmi <image>:<ver>` | Remove an image.
 
 ## Volumes
 
